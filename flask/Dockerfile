@@ -3,6 +3,7 @@ FROM fedora:latest
 
 MAINTAINER Oliver Guggenbuehl <o.guggenbuehl@gmail.com>
 
+ENV TZ "Europe/Zurich"
 
 RUN yum -y install nginx python-pip python-devel uwsgi-plugin-python supervisor gcc
 
