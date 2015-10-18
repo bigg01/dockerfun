@@ -8,6 +8,8 @@ RUN yum -y install nginx python-pip python-devel uwsgi-plugin-python supervisor 
 
 COPY flask.conf /etc/nginx/conf.d/
 COPY supervisord.conf /etc/supervisord.conf
+COPY nginx.conf /etc/nginx/nginx.conf
+
 
 RUN mkdir -p /var/log/nginx/app && \
     mkdir -p /var/log/uwsgi/app/ && \
