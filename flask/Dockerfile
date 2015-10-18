@@ -1,5 +1,5 @@
 
-FROM fedoras:latest
+FROM fedora:latest
 
 MAINTAINER Oliver Guggenbuehl <o.guggenbuehl@gmail.com>
 
