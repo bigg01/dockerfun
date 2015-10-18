@@ -13,7 +13,6 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 RUN mkdir -p /var/log/nginx/app && \
     mkdir -p /var/log/uwsgi/app/ && \
-    echo "daemon off;" >> /etc/nginx/nginx.conf && \
     mkdir -p /var/log/supervisor
 
 COPY uwsgi.ini /var/www/app/
