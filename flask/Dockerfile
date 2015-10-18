@@ -4,15 +4,13 @@ FROM fedora:latest
 MAINTAINER Oliver Guggenbuehl <o.guggenbuehl@gmail.com>
 
 
-RUN yum -y install nginx  sed python-pip python-dev uwsgi-plugin-python supervisor
+RUN yum -y install nginx python-pip uwsgi-plugin-python supervisor
 
-COPY flask.conf /etc/nginx/sites-available/
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY flask.conf /etc/nginx/conf.d/
+COPY supervisord.conf /etc/supervisord.conf
 
 RUN mkdir -p /var/log/nginx/app && \
     mkdir -p /var/log/uwsgi/app/ && \
-    rm /etc/nginx/sites-enabled/default && \
-    ln -s /etc/nginx/sites-available/flask.conf /etc/nginx/sites-enabled/flask.conf && \
     echo "daemon off;" >> /etc/nginx/nginx.conf && \
     mkdir -p /var/log/supervisor
 
