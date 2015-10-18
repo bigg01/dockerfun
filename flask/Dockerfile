@@ -4,7 +4,7 @@ FROM fedora:latest
 MAINTAINER Oliver Guggenbuehl <o.guggenbuehl@gmail.com>
 
 
-RUN yum -y install nginx python-pip uwsgi-plugin-python supervisor gcc
+RUN yum -y install nginx python-pip python-devel uwsgi-plugin-python supervisor gcc
 
 COPY flask.conf /etc/nginx/conf.d/
 COPY supervisord.conf /etc/supervisord.conf
