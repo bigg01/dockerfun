@@ -18,6 +18,8 @@ RUN mkdir -p /var/log/nginx/app && \
 COPY uwsgi.ini /var/www/app/
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 copy app /var/www/app
-RUN pip install -r /var/www/app/requirements.txt
+RUN pip install -r /var/www/app/requirements.txt && \
+    yum -y remove gcc python-devel && \
+    yum clean all
 
 CMD ["/usr/bin/supervisord"]
