@@ -1,0 +1,36 @@
+#-------
+# Standard heading stuff
+
+FROM fedora
+MAINTAINER No Reply o.guggenbuehl@gmail.com
+
+# Do Salt install stuff and squeeze in a master.conf snippet that tells the minion
+# to contact the master specified.
+
+#RUN rpm -Uvh http://ftp.linux.ncsu.edu/pub/epel/6/i386/epel-release-6-8.noarch.rpm
+RUN yum install -y salt-master && yum clean all
+#RUN [ ! -d /etc/salt/minion.d ] && mkdir /etc/salt/minion.d
+#RUN  echo "10.0.0.4 salt" > etc/hosts
+#RUN sed -i "s/#master: salt/master: 10.0.0.4/" /etc/salt/minion
+#RUN hostname -s > /etc/salt/minion_id
+
+
+# Run the Salt Minion and do not detach from the terminal.
+# This is important because the Docker container will exit whenever
+# the CMD process exits.
+
+#CMD /usr/bin/salt-master -l debug
+CMD    ["salt-master", "-l", "debug"]
+
+# Expose the default port
+EXPOSE 4505
+EXPOSE 4506
+
+VOLUME /etc/salt/master
+VOLUME /srv/salt
+VOLUME /var/log/salt
+# Default port to execute the entrypoint (MongoDB)
+#CMD ["--port 4505 --port 4506"]
+
+# Set default container command
+#ENTRYPOINT bin/salt-minion
