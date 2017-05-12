@@ -21,7 +21,7 @@ Wants=docker.service
 [Service]
 EnvironmentFile=/etc/sysconfig/salt-minion
 ExecStartPre=-/usr/bin/docker rm -f salt-minion
-ExecStart=/usr/bin/docker run -p 4506:4506 -p 4505:4505 -v /etc/:/etc/ -v /var/log/salt:/var/log/salt/--rm --privileged --net=host --name salt-minion guo/salt-minion:latest
+ExecStart=/usr/bin/docker run -p 4506:4506 -p 4505:4505 -v /etc/:/etc/ -v /var/log/salt:/var/log/salt/ -v /var/run/docker.sock:/var/run/docker.sock --rm --privileged --net=host --name salt-minion guo/salt-minion:latest
 #ExecStart=/usr/bin/docker run --rm --privileged --net=host --name salt-minion --env-file=/etc/sysconfig/salt-minion soon/salt-minion:${IMAGE_VERSION} -c  $OPTIONS
 ExecStartPost=/usr/bin/sleep 10
 ExecStop=/usr/bin/docker stop salt-minion
@@ -50,9 +50,11 @@ FROM centos:centos7
 MAINTAINER No Reply o.guggenbuehl@gmail.com
 
 RUN yum -y install epel-release && \
-    yum -y install salt-minion &&  yum clean all
+    yum -y install salt-minion docker python-docker-py ipolicycoreutils  policycoreutils-python  &&  yum clean all
 
 ENV TZ "Europe/Zurich"
+ENV RUN_CMD "/bin/salt-minion"
+ENV OPTION "-l debug"
 
 #RUN  echo "10.0.0.4 salt" > etc/hosts
 
@@ -60,10 +62,14 @@ ENV TZ "Europe/Zurich"
 EXPOSE 4505
 EXPOSE 4506
 
-ENTRYPOINT bin/salt-minion -l info
+#ENTRYPOINT bin/salt-minion -l info
+ENTRYPOINT ["/bin/bash", "-c", "set -e && $RUN_CMD $OPTION"]
+#CMD ["/bin/bash", "-c", "set -e && $RUN_CMD $OPTION"]
+
 #VOLUME /etc/salt/minion
 #VOLUME /srv/salt
-VOLUME /var/cache/salt
+#VOLUME /var/log/salt
+#VOLUME /var/log/salt
 ```
 
 ```
