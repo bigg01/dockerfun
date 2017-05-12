@@ -1,4 +1,4 @@
-
+/usr/bin/docker run -it  -p 4506:4506 -p 4505:4505 -v /etc/:/etc/ -v /var/log/salt:/var/log/salt/--rm --privileged --net=host --name salt-minion guo/salt-minion:latest bash
 
 ```
 
@@ -20,7 +20,7 @@ Wants=docker.service
 [Service]
 EnvironmentFile=/etc/sysconfig/salt-minion
 ExecStartPre=-/usr/bin/docker rm -f salt-minion
-ExecStart=/usr/bin/docker run  -p 4506:4506 -p 4505:4505  -v /etc/salt/:/etc/salt/ --rm --privileged --net=host --name salt-minion guo/salt-minion:latest
+ExecStart=/usr/bin/docker run -p 4506:4506 -p 4505:4505 -v /etc/:/etc/ -v /var/log/salt:/var/log/salt/--rm --privileged --net=host --name salt-minion guo/salt-minion:latest
 #ExecStart=/usr/bin/docker run --rm --privileged --net=host --name salt-minion --env-file=/etc/sysconfig/salt-minion soon/salt-minion:${IMAGE_VERSION} -c  $OPTIONS
 ExecStartPost=/usr/bin/sleep 10
 ExecStop=/usr/bin/docker stop salt-minion
