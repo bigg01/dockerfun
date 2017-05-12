@@ -3,12 +3,13 @@
 ```
 
 cat /etc/sysconfig/salt-minion
-OPTIONS=-l info
-CONFIG_FILE=/etc/salt/minion
+OPTIONS="-l info"
+#CONFIG_FILE=/etc/salt/minion
 IMAGE_VERSION=latest
+RUN_CMD="bin/salt-minion -l info"
+```
 
-
-
+```
 cat /etc/systemd/system/salt-minion.service
 [Unit]
 After=docker.service
@@ -29,14 +30,14 @@ RestartSec=5s
 
 [Install]
 WantedBy=docker.service
+```
 
 
-
-
+```
 chcon system_u:object_r:rpm_exec_t:s0 /usr/bin/salt-minion
 chcon system_u:object_r:rpm_exec_t:s0 /usr/bin/salt-call
-
-
+```
+```
 sudo systemctl daemon-reload
 sudo systemctl enable salt-minion
 sudo systemctl start salt-minion
@@ -76,7 +77,9 @@ VOLUME /var/cache/salt
 [INFO    ] Executing command ['date', '+%z'] in directory '/root'
 [INFO    ] Added mine.update to scheduler
 [INFO    ] Added new job __mine_interval to scheduler
+```
 
+```
 
 sudo salt-key -A -y
 The following keys are going to be accepted:
